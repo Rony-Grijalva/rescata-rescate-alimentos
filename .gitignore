@@ -1,0 +1,32 @@
+# Base de datos local generada al ejecutar (se crea sola desde database/*.sql)
+data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node (solo para la prueba E2E opcional)
+node_modules/
+package-lock.json
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+*.tmp
