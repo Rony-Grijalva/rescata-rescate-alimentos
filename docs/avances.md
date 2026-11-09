@@ -8,8 +8,8 @@ Proyecto **RESCATA** — curso Base de Datos 2 (UNMSM, Facultad de Ingeniería d
 
 | Etapa | Entregable | Evidencia en el repositorio | Estado |
 |---|---|---|---|
-| 1. Modelo de datos | Modelo relacional de 22 tablas y DDL Oracle con restricciones y disparadores | `database/oracle/rescata_ddl_oracle.sql`, `rescata_triggers_oracle.sql`, `frontend/assets/modelo_22_*.png` | Completo |
-| 2. Scripts Oracle 11g | Usuarios y perfiles, DDL II, datos DML, consultas y vistas, funciones, excepciones, cursores, records, colecciones, privilegios y pruebas | `database/oracle/01…09_*.sql`, `99_limpieza.sql`; capturas en `docs/evidencia-oracle/` | Completo |
+| 1. Modelo de datos | Modelo relacional (21 tablas en los scripts Oracle; 22 en la aplicación al añadir `vehiculo`) | `database/oracle/02_base_rescata.sql`, `frontend/assets/modelo_22_*.png` | Completo |
+| 2. Scripts Oracle 11g | Usuarios y perfiles, DDL, DDL II, datos DML, consultas y vistas, funciones, excepciones, cursores, records, colecciones, privilegios y pruebas | `database/oracle/01…09_*.sql`, `99_limpieza.sql`; capturas en `docs/evidencia-oracle/` | Completo |
 | 3. Aplicación web | Aplicación ejecutable (Python + SQLite + JavaScript) con CRUD validado, reglas de negocio, 10 consultas JOIN, 17 pruebas de reglas, panel «SQL en vivo» y bitácora | `backend/`, `frontend/`, `database/schema.sql`, `seed.sql` | Completo |
 | 4. Roles y ciclo completo | Menús y alcance por rol; estado de solicitud derivado; reparto, despacho con hitos y comprobante | `PERMISOS`, `Ctx` en `server.py`; `business.py`; `tests/test_roles.py` | Completo |
 | 5. Seguridad e identidad visual | Autenticación con hash, sesiones, bloqueo, RBAC en backend y frontend, gestión de usuarios; ilustraciones SVG propias, animaciones y diseño responsive | `backend/auth.py`, `database/auth.sql`, `tests/test_auth.py`, `frontend/` | Completo |

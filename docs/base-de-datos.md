@@ -68,9 +68,10 @@ Las 17 pruebas de reglas (P1–P17) se ejecutan desde la pantalla **Pruebas de r
 
 ## Scripts Oracle (`database/oracle/`)
 
+Modelo del 3.er avance: **21 tablas** (nombres como `donacionLote`, `donacionLoteDetalle`, `donacion`, `despachoRecojo`; el vehículo es la columna `despachoRecojo.vehiculo`). La aplicación amplía el modelo a **22 tablas** con una tabla `vehiculo` propia y renombra algunas tablas (`donacion_ofrecida`, `donacion_parcial`…), por lo que los nombres de las secciones anteriores corresponden a la aplicación SQLite.
+
 | Archivo | Contenido |
 |---|---|
-| `rescata_ddl_oracle.sql`, `rescata_triggers_oracle.sql` | DDL del modelo y disparadores |
 | `01_usuarios_sys.sql` | Usuario propietario y perfiles (las contraseñas del script son marcadores `Cambiar#…`) |
 | `02_base_rescata.sql`, `03_ddl_ii.sql`, `04_datos_dml.sql` | Esquema base, ajustes DDL y datos |
 | `05_consultas_vistas.sql` … `07_control_records_colecciones.sql` | Consultas, vistas, funciones, excepciones, cursores, records y colecciones |
