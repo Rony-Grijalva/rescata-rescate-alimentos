@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 560" role="img" aria-label="Un comercio dona alimentos que un camión lleva a un comedor popular">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2f63"/><stop offset="1" stop-color="#2f5bd8"/></linearGradient>
+<linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17305f"/><stop offset="1" stop-color="#0f1b33"/></linearGradient>
+<linearGradient id="bk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9b25a"/><stop offset="1" stop-color="#c98a2b"/></linearGradient>
+</defs>
+<rect width="640" height="560" fill="url(#sky)"/>
+<circle cx="500" cy="120" r="70" fill="#f5a524" opacity=".95"/><circle cx="500" cy="120" r="100" fill="#f5a524" opacity=".18"/>
+<g fill="#fff" opacity=".12"><ellipse cx="130" cy="90" rx="70" ry="18"/><ellipse cx="190" cy="76" rx="50" ry="14"/><ellipse cx="380" cy="170" rx="60" ry="14"/></g>
+<g fill="#13264f" opacity=".7"><rect x="20" y="300" width="50" height="170"/><rect x="76" y="270" width="40" height="200"/><rect x="520" y="290" width="48" height="180"/><rect x="574" y="320" width="50" height="150"/></g>
+<rect y="440" width="640" height="120" fill="url(#gr)"/><rect y="440" width="640" height="6" fill="#f5a524" opacity=".5"/>
+<!-- comercio -->
+<g transform="translate(40 300)"><rect x="0" y="40" width="150" height="100" rx="6" fill="#fff"/><rect x="0" y="28" width="150" height="26" fill="#f5a524"/>
+<path d="M0 54h150l-10 18H10z" fill="#fff" opacity=".0"/><g fill="#fff"><path d="M0 28l15 26 15-26 15 26 15-26 15 26 15-26 15 26 15-26 15 26 15-26 15 26 15-26H0z" opacity="0"/></g>
+<g><path d="M0 54c8 14 22 14 25 0 3 14 22 14 25 0 3 14 22 14 25 0 3 14 22 14 25 0 3 14 22 14 25 0 3 14 22 14 25 0V28H0z" fill="#e8891c"/></g>
+<rect x="14" y="76" width="50" height="64" rx="4" fill="#cfe0ff"/><rect x="82" y="86" width="52" height="54" rx="4" fill="#1f3864"/><circle cx="100" cy="114" r="3" fill="#f5a524"/>
+<rect x="20" y="10" width="110" height="22" rx="5" fill="#0f1b33"/><text x="75" y="26" font-family="Arial" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">PANADERÍA</text></g>
+<!-- comedor -->
+<g transform="translate(450 296)"><rect x="0" y="44" width="150" height="100" rx="6" fill="#fff"/><path d="M-8 48L75 0l83 48z" fill="#0e9f6e"/><rect x="108" y="8" width="16" height="30" fill="#0e9f6e"/>
+<g fill="#fff" opacity=".7"><circle cx="116" cy="-6" r="7"/><circle cx="124" cy="-20" r="9"/><circle cx="116" cy="-36" r="7"/></g>
+<rect x="18" y="72" width="40" height="40" rx="4" fill="#cfe0ff"/><rect x="92" y="84" width="40" height="60" rx="4" fill="#1f3864"/>
+<g transform="translate(25 120)"><ellipse cx="14" cy="14" rx="16" ry="5" fill="#0f1b33" opacity=".2"/><path d="M0 0h28v10a14 14 0 01-28 0z" fill="#f5a524"/></g></g>
+<!-- ruta -->
+<path d="M200 330C260 250 380 250 440 330" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" opacity=".7"/>
+<path d="M432 318l14 16-20 2z" fill="#fff" opacity=".8"/>
+<!-- canasta -->
+<g transform="translate(220 250)"><path d="M0 70h200l-24 110H24z" fill="url(#bk)"/><g stroke="#a56c1a" stroke-width="3" opacity=".6"><path d="M12 105h176M20 140h160M6 80l30 98M44 74l34 104M86 72l22 106M130 72l-4 106M170 74l-30 104"/></g>
+<rect x="-6" y="62" width="212" height="16" rx="8" fill="#a56c1a"/>
+<ellipse cx="45" cy="52" rx="48" ry="22" fill="#e8c08a"/><path d="M12 48c20-18 60-18 82 0" stroke="#c98a2b" stroke-width="3" fill="none"/>
+<circle cx="122" cy="48" r="24" fill="#e5484d"/><path d="M122 26c0-10 8-14 14-14" stroke="#0e9f6e" stroke-width="5" fill="none" stroke-linecap="round"/>
+<rect x="150" y="14" width="34" height="54" rx="4" fill="#fff"/><rect x="150" y="14" width="34" height="14" fill="#2f5bd8"/><rect x="159" y="38" width="16" height="16" rx="3" fill="#cfe0ff"/>
+<path d="M190 66c-6-30 4-52 18-60-2 26 8 40-6 60z" fill="#f08a24"/><path d="M200 8c0-8 5-12 9-14 0 8-1 12-9 14z" fill="#0e9f6e"/></g>
+<!-- corazon -->
+<g transform="translate(290 150)"><path d="M30 60C4 42-2 22 8 10c8-9 20-6 22 6 2-12 14-15 22-6 10 12 4 32-22 50z" fill="#f5a524" stroke="#fff" stroke-width="3"/></g>
+<!-- camion -->
+<g transform="translate(60 452)"><rect x="0" y="0" width="150" height="62" rx="8" fill="#fff"/><path d="M150 14h34l24 24v24h-58z" fill="#cfe0ff"/><path d="M160 22h20l14 16h-34z" fill="#2f5bd8" opacity=".6"/>
+<rect x="14" y="14" width="30" height="30" rx="6" fill="#f5a524"/><path d="M29 38c-11-8-14-14-9-20 3-3 7-2 9 2 2-4 6-5 9-2 5 6 2 12-9 20z" fill="#fff"/>
+<text x="92" y="36" font-family="Arial" font-size="15" font-weight="800" fill="#1f3864" text-anchor="middle">RESCATA</text>
+<circle cx="40" cy="64" r="14" fill="#0f1b33"/><circle cx="40" cy="64" r="6" fill="#9db4e8"/><circle cx="168" cy="64" r="14" fill="#0f1b33"/><circle cx="168" cy="64" r="6" fill="#9db4e8"/></g>
+<g stroke="#fff" opacity=".35" stroke-width="3" stroke-linecap="round"><path d="M240 520h40M310 520h40M380 520h40M450 520h40"/></g>
+</svg>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RESCATA · Sistema de rescate de alimentos</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231f3864'/%3E%3Cpath d='M32 50C18 40 14 30 20 23c4-4 10-3 12 2 2-5 8-6 12-2 6 7 2 17-12 27z' fill='%23f5a524'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div id="progress" class="progress"></div>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24"><path d="M12 21C5 16.5 3 12 6 8.800c2-2 4.500-1.500 6 1 1.500-2.500 4-3 6-1 3 3.200 1 7.700-6 12.200z"/></svg></div>
+      <div><b>RESCATA</b><small>Rescate de alimentos</small></div>
+    </div>
+    <nav id="nav"></nav>
+    <div class="side-foot"><span class="dot"></span><span id="dbinfo">Base de datos</span></div>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn only-mobile" id="burger" aria-label="Menú"></button>
+      <div class="crumbs"><h1 id="page-title">Panel</h1><p id="page-sub"></p></div>
+      <div class="top-actions">
+        <button class="btn ghost sm" id="btn-sql" title="Sentencias SQL ejecutadas en tiempo real"></button>
+        <button class="userchip" id="user" title="Cambiar de usuario o de rol"></button>
+        <button class="icon-btn" id="btn-theme" title="Tema claro/oscuro" aria-label="Tema"></button>
+        <button class="btn danger-ghost sm" id="btn-reset" title="Restaurar datos de demostración"></button>
+      </div>
+    </header>
+    <main id="view" class="view" tabindex="-1"></main>
+  </div>
+</div>
+<aside class="sqlpanel" id="sqlpanel" aria-label="SQL en vivo">
+  <div class="sqlpanel-head"><b>SQL en vivo</b><span>Sentencias que modifican la base de datos</span><button class="icon-btn" id="sql-clear" title="Limpiar"></button><button class="icon-btn" id="sql-close" title="Cerrar"></button></div>
+  <div class="sqlpanel-body" id="sqlbody"><p class="muted">Aún no se ha ejecutado ninguna operación. Crea, edita o elimina algo y verás aquí el INSERT / UPDATE / DELETE real.</p></div>
+</aside>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+<div id="modal-root"></div>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
