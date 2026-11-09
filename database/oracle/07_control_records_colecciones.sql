@@ -1,6 +1,6 @@
 -- =====================================================================
--- RESCATA - 3.er avance | Archivo 07: estructuras de control, RECORDS y
--- colecciones. Ejecutar como RESCATA, despues del archivo 06.
+-- RESCATA - Archivo 07: estructuras de control, RECORDS y colecciones
+-- Ejecutar como RESCATA, despues del archivo 06.
 -- =====================================================================
 
 -- U1. VARRAY de umbrales + CASE: clasifica la urgencia de una linea
@@ -29,7 +29,7 @@ IS
   TYPE t_candidata IS RECORD (
     id_organizacion organizacion.id_organizacion%TYPE,
     nombre          organizacion.nombre_organizacion%TYPE,
-    tipo            organizacionTipo.tipo%TYPE,
+    tipo            tipo_organizacion.tipo%TYPE,
     nivel           PLS_INTEGER,     -- 1 misma zona, 2 mismo distrito, 3 otro
     apta_frio       CHAR(1)
   );
@@ -38,7 +38,7 @@ IS
   v_pos    PLS_INTEGER := 0;
   v_existe NUMBER;
 BEGIN
-  SELECT COUNT(*) INTO v_existe FROM donacionLote WHERE id_donacionLote = p_lote;
+  SELECT COUNT(*) INTO v_existe FROM donacion_ofrecida WHERE id_donacion_ofrecida = p_lote;
   IF v_existe = 0 THEN
     RAISE_APPLICATION_ERROR(-20004, 'El lote ' || p_lote || ' no existe');
   END IF;
@@ -49,18 +49,18 @@ BEGIN
               ELSE 3 END,
          CASE WHEN o.tiene_refrigeracion = 0
                AND EXISTS (SELECT 1
-                             FROM donacionLoteDetalle det
+                             FROM detalle_donacion_ofrecida det
                              JOIN alimento a ON a.id_alimento = det.id_alimento
-                            WHERE det.id_donacionLote = l.id_donacionLote
+                            WHERE det.id_donacion_ofrecida = l.id_donacion_ofrecida
                               AND a.requiere_refrigeracion = 1)
               THEN 'N' ELSE 'S' END
     BULK COLLECT INTO v_cand
     FROM organizacion o
-    JOIN organizacionEstado e ON e.id_organizacionEstado = o.id_organizacionEstado
-    JOIN organizacionTipo  t  ON t.id_organizacionTipo   = o.id_organizacionTipo
-    JOIN zona zo              ON zo.id_zona = o.id_zona
-    JOIN donacionLote l       ON l.id_donacionLote = p_lote
-    JOIN zona zl              ON zl.id_zona = l.id_zona
+    JOIN estado_organizacion e ON e.id_estado_organizacion = o.id_estado_organizacion
+    JOIN tipo_organizacion  t  ON t.id_tipo_organizacion   = o.id_tipo_organizacion
+    JOIN zona zo               ON zo.id_zona = o.id_zona
+    JOIN donacion_ofrecida l   ON l.id_donacion_ofrecida = p_lote
+    JOIN zona zl               ON zl.id_zona = l.id_zona
    WHERE e.estado = 'HABILITADA'
    ORDER BY 4, 2;
 
@@ -91,25 +91,25 @@ END sp_sugerir_receptoras;
 CREATE OR REPLACE PROCEDURE sp_repartir_equitativo (p_lote IN NUMBER)
 IS
   TYPE t_saldos IS TABLE OF NUMBER INDEX BY PLS_INTEGER;       -- linea -> saldo
-  TYPE t_ids    IS TABLE OF donacion.id_donacion%TYPE;
+  TYPE t_ids    IS TABLE OF donacion_parcial.id_donacion_parcial%TYPE;
   v_saldos t_saldos;
   v_pend   t_ids;
   v_aptas  t_ids;
   v_linea  PLS_INTEGER;
-  v_org    donacion.id_organizacion%TYPE;
+  v_org    donacion_parcial.id_organizacion%TYPE;
   v_parte  NUMBER;
 BEGIN
-  FOR r IN (SELECT id_donacionLoteDetalle AS linea, saldo
+  FOR r IN (SELECT id_detalle_donacion_ofrecida AS linea, saldo
               FROM v_saldo_linea
-             WHERE id_donacionLote = p_lote AND saldo > 0) LOOP
+             WHERE id_donacion_ofrecida = p_lote AND saldo > 0) LOOP
     v_saldos(r.linea) := r.saldo;
   END LOOP;
 
-  SELECT d.id_donacion BULK COLLECT INTO v_pend
-    FROM donacion d
-    JOIN donacionEstado e ON e.id_donacionEstado = d.id_donacionEstado
-   WHERE d.id_donacionLote = p_lote AND e.estado = 'PENDIENTE'
-   ORDER BY d.fechaSolicitud;
+  SELECT d.id_donacion_parcial BULK COLLECT INTO v_pend
+    FROM donacion_parcial d
+    JOIN estado_donacion e ON e.id_estado_donacion = d.id_estado_donacion
+   WHERE d.id_donacion_ofrecida = p_lote AND e.estado = 'PENDIENTE'
+   ORDER BY d.fecha_solicitud, d.id_donacion_parcial;
 
   IF v_saldos.COUNT = 0 OR v_pend.COUNT = 0 THEN
     DBMS_OUTPUT.PUT_LINE('Nada que repartir en el lote ' || p_lote);
@@ -120,7 +120,7 @@ BEGIN
   WHILE v_linea IS NOT NULL LOOP
     v_aptas := t_ids();
     FOR i IN 1 .. v_pend.COUNT LOOP
-      SELECT id_organizacion INTO v_org FROM donacion WHERE id_donacion = v_pend(i);
+      SELECT id_organizacion INTO v_org FROM donacion_parcial WHERE id_donacion_parcial = v_pend(i);
       IF fn_compatible_frio(v_linea, v_org) = 'S' THEN
         v_aptas.EXTEND;
         v_aptas(v_aptas.LAST) := v_pend(i);
@@ -148,11 +148,11 @@ BEGIN
   END LOOP;
 
   -- Las solicitudes que ya recibieron reparto pasan a ASIGNADA
-  UPDATE donacion d
-     SET id_donacionEstado = (SELECT id_donacionEstado FROM donacionEstado WHERE estado = 'ASIGNADA')
-   WHERE d.id_donacionLote = p_lote
-     AND d.id_donacionEstado = (SELECT id_donacionEstado FROM donacionEstado WHERE estado = 'PENDIENTE')
-     AND EXISTS (SELECT 1 FROM donacionDetalle x WHERE x.id_donacion = d.id_donacion);
+  UPDATE donacion_parcial d
+     SET id_estado_donacion = (SELECT id_estado_donacion FROM estado_donacion WHERE estado = 'ASIGNADA')
+   WHERE d.id_donacion_ofrecida = p_lote
+     AND d.id_estado_donacion = (SELECT id_estado_donacion FROM estado_donacion WHERE estado = 'PENDIENTE')
+     AND EXISTS (SELECT 1 FROM detalle_donacion_parcial x WHERE x.id_donacion_parcial = d.id_donacion_parcial);
 END sp_repartir_equitativo;
 /
 
@@ -162,13 +162,13 @@ END sp_repartir_equitativo;
 --     debe usarse una SEQUENCE para evitar duplicados concurrentes).
 CREATE OR REPLACE PROCEDURE sp_emitir_comprobante (p_donacion IN NUMBER)
 IS
-  r_don   donacion%ROWTYPE;
-  v_estado donacionEstado.estado%TYPE;
-  v_num   NUMBER;
-  v_monto NUMBER;
+  r_don    donacion_parcial%ROWTYPE;
+  v_estado estado_donacion.estado%TYPE;
+  v_num    NUMBER;
+  v_monto  NUMBER;
 BEGIN
-  SELECT * INTO r_don FROM donacion WHERE id_donacion = p_donacion;
-  SELECT estado INTO v_estado FROM donacionEstado WHERE id_donacionEstado = r_don.id_donacionEstado;
+  SELECT * INTO r_don FROM donacion_parcial WHERE id_donacion_parcial = p_donacion;
+  SELECT estado INTO v_estado FROM estado_donacion WHERE id_estado_donacion = r_don.id_estado_donacion;
 
   IF v_estado <> 'ENTREGADA' THEN
     RAISE_APPLICATION_ERROR(-20006, 'Solo se emite comprobante de una donacion ENTREGADA (estado actual: ' || v_estado || ')');
@@ -177,7 +177,7 @@ BEGIN
   v_monto := fn_valor_donacion(p_donacion);
   SELECT NVL(MAX(numero), 0) + 1 INTO v_num FROM comprobante WHERE serie = 'F001';
 
-  INSERT INTO comprobante (id_donacion, serie, numero, monto_total)
+  INSERT INTO comprobante (id_donacion_parcial, serie, numero, monto_total)
   VALUES (p_donacion, 'F001', v_num, v_monto);
 
   DBMS_OUTPUT.PUT_LINE('Comprobante F001-' || LPAD(v_num, 8, '0') || ' por S/ ' || TO_CHAR(v_monto, 'FM999990.00'));

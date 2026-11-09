@@ -68,13 +68,19 @@ Las 17 pruebas de reglas (P1–P17) se ejecutan desde la pantalla **Pruebas de r
 
 ## Scripts Oracle (`database/oracle/`)
 
-Modelo del 3.er avance: **21 tablas** (nombres como `donacionLote`, `donacionLoteDetalle`, `donacion`, `despachoRecojo`; el vehículo es la columna `despachoRecojo.vehiculo`). La aplicación amplía el modelo a **22 tablas** con una tabla `vehiculo` propia y renombra algunas tablas (`donacion_ofrecida`, `donacion_parcial`…), por lo que los nombres de las secciones anteriores corresponden a la aplicación SQLite.
+Son los scripts ejecutados en Oracle (SQL Developer). El DDL (`02_base_rescata.sql`) fue generado con Oracle SQL Developer Data Modeler y crea las **mismas 22 tablas** que usa la aplicación; para emular `IDENTITY` en 11g crea 22 secuencias y 22 disparadores `trg_*_id`. Además define 4 vistas, 5 funciones (`fn_saldo_linea`, `fn_valor_donacion`, `fn_compatible_frio`, `fn_urgencia`, `fn_peso_donacion_kg`) y 7 procedimientos (`sp_asignar_linea`, `sp_programar_despacho`, `sp_emitir_comprobante`, `sp_repartir_equitativo`, `sp_sugerir_receptoras`, `sp_alerta_vencimientos`, `sp_resumen_organizacion`).
 
 | Archivo | Contenido |
 |---|---|
-| `01_usuarios_sys.sql` | Usuario propietario y perfiles (las contraseñas del script son marcadores `Cambiar#…`) |
-| `02_base_rescata.sql`, `03_ddl_ii.sql`, `04_datos_dml.sql` | Esquema base, ajustes DDL y datos |
-| `05_consultas_vistas.sql` … `07_control_records_colecciones.sql` | Consultas, vistas, funciones, excepciones, cursores, records y colecciones |
-| `08_privilegios_objetos.sql`, `09_pruebas.sql`, `99_limpieza.sql` | Roles y privilegios, pruebas y limpieza |
+| `01_usuarios_sys.sql` | Perfil de contraseñas, esquema `rescata`, cuatro roles y un usuario de demostración por rol (las contraseñas del script son marcadores `Cambiar#…`) |
+| `02_base_rescata.sql` | DDL: tablas, claves y secuencias/disparadores de identidad |
+| `03_ddl_ii.sql` | `ALTER`, restricciones adicionales e índices |
+| `04_datos_dml.sql` | Carga de datos de prueba y CRUD |
+| `05_consultas_vistas.sql` | Consultas JOIN y las 4 vistas |
+| `06_funciones_excepciones_cursores.sql` | Funciones, excepciones y cursores |
+| `07_control_records_colecciones.sql` | Estructuras de control, records y colecciones |
+| `08_privilegios_objetos.sql` | Privilegios sobre objetos por rol |
+| `09_pruebas.sql`, `10_verificacion_creacion.sql`, `11_pruebas_seguridad.sql` | Pruebas de lógica, verificación del esquema y pruebas de seguridad |
+| `99_limpieza.sql` | Elimina el esquema y los usuarios |
 
 `docs/evidencia-oracle/` contiene las capturas de la ejecución de estos scripts en Oracle.

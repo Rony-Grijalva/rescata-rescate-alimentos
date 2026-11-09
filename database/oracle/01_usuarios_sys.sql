@@ -1,10 +1,10 @@
 -- =====================================================================
 -- RESCATA - 3.er avance | Archivo 01: gestion de usuarios (parte A)
 -- Ejecutar como SYS o SYSTEM. En Oracle XE 21c se trabaja en la PDB
--- XEPDB1, por eso los usuarios locales no llevan el prefijo C##.
+-- (11g XE: sin PDB), por eso los usuarios locales no llevan el prefijo C##.
 -- Las contrasenas son marcadores: cambiarlas antes de ejecutar.
 -- =====================================================================
-ALTER SESSION SET CONTAINER = XEPDB1;
+-- (Oracle 11g XE no tiene PDB: se trabaja directo en la base XE)
 
 -- 1) Perfil: reglas de contrasena y de sesion para todos los usuarios
 CREATE PROFILE perfil_rescata LIMIT
@@ -14,7 +14,7 @@ CREATE PROFILE perfil_rescata LIMIT
   SESSIONS_PER_USER     3
   IDLE_TIME             30;    -- minutos de inactividad
 
--- 2) Esquema propietario: es dueno de las 21 tablas
+-- 2) Esquema propietario: es dueno de las 22 tablas
 CREATE USER rescata IDENTIFIED BY "Cambiar#Owner26"
   DEFAULT TABLESPACE users
   TEMPORARY TABLESPACE temp
@@ -22,7 +22,7 @@ CREATE USER rescata IDENTIFIED BY "Cambiar#Owner26"
   PROFILE perfil_rescata;
 
 GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW,
-      CREATE PROCEDURE, CREATE SEQUENCE TO rescata;
+      CREATE PROCEDURE, CREATE SEQUENCE, CREATE TRIGGER TO rescata;
 
 -- 3) Roles por actor del sistema (los privilegios sobre objetos se
 --    otorgan despues, en el archivo 08, cuando las tablas ya existen)
@@ -57,9 +57,18 @@ ALTER USER usr_auditor_demo ACCOUNT LOCK;
 ALTER USER usr_auditor_demo ACCOUNT UNLOCK;
 ALTER USER usr_org_demo     PASSWORD EXPIRE;   -- obliga a cambiarla al ingresar
 
--- 6) Consulta de control
+-- 6) Consulta de control: usr_org_demo queda EXPIRED; el resto OPEN
 SELECT username, account_status, profile
   FROM dba_users
  WHERE username IN ('RESCATA','USR_ADMIN_DEMO','USR_DONANTE_DEMO',
                     'USR_ORG_DEMO','USR_AUDITOR_DEMO')
  ORDER BY username;
+
+-- 7) Se restablece la clave de usr_org_demo (reactiva la cuenta expirada)
+ALTER USER usr_org_demo IDENTIFIED BY "Cambiar#Org26";
+
+-- 8) Roles asignados a cada usuario de demostracion
+SELECT grantee, granted_role
+  FROM dba_role_privs
+ WHERE grantee IN ('USR_ADMIN_DEMO','USR_DONANTE_DEMO','USR_ORG_DEMO','USR_AUDITOR_DEMO')
+ ORDER BY grantee;

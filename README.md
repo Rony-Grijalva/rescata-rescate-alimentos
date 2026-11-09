@@ -20,7 +20,7 @@ Conecta a comercios que tienen alimentos aptos para el consumo con ollas comunes
 
 RESCATA es una aplicación web completa (frontend, backend y base de datos relacional) desarrollada como proyecto del curso **Base de Datos 2** (UNMSM – Facultad de Ingeniería de Sistemas e Informática, 2026-II). Modela todo el ciclo de un rescate de alimentos: el **donante publica** un lote, la **organización lo solicita**, el **coordinador reparte** los alimentos, la organización **recoge** (con hitos de llegada, salida y entrega) y el sistema **emite un comprobante** de donación.
 
-Las reglas de negocio (saldos, cadena de frío, comprobante único) y las consultas JOIN provienen de los scripts Oracle 11g del proyecto (`database/oracle/`, modelo de 21 tablas del 3.er avance). La aplicación ejecutable los traduce a SQLite y Python para poder demostrarse en cualquier computadora sin instalar nada, y su modelo es de 22 tablas porque incorpora la tabla `vehiculo` (en los scripts Oracle el vehículo es una columna de texto del despacho).
+El modelo de 22 tablas, las reglas de negocio (saldos, cadena de frío, capacidad de vehículos, comprobante único) y las consultas JOIN provienen de los scripts Oracle del proyecto (`database/oracle/`, ejecutados y verificados en Oracle con SQL Developer); la aplicación ejecutable los traduce a SQLite y Python para poder demostrarse en cualquier computadora sin instalar nada.
 
 ## Problemática identificada
 
